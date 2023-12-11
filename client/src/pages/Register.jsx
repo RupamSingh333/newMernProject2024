@@ -1,18 +1,54 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Register = () => {
-  const [userData, setUserData] = useState({
+  const [user, setUser] = useState({
     username: "",
     email: "",
     phone: "",
     password: "",
   });
 
-  const handleChange = (e) => {
+  const handleInput = (e) => {
+    console.log(e);
     let name = e.target.name;
     let value = e.target.value;
-    setUserData({ ...userData, [name]: value });
+
+    setUser({
+      ...user,
+      [name]: value,
+    });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Assuming user state contains the necessary data for registration
+    console.log(user);
+
+    try {
+      const response = await fetch("https://reqres.in/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        // Registration successful
+        const responseData = await response.json();
+        console.log("Registration successful:", responseData);
+      } else {
+        // Registration failed
+        const errorData = await response.json();
+        console.error("Registration failed:", errorData);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
+  //  Help me reach 1 Million subs 👉 https://youtube.com/thapatechnical
 
   return (
     <>
@@ -20,71 +56,58 @@ const Register = () => {
         <main>
           <div className="section-registration">
             <div className="container grid grid-two-cols">
-              <div className="register-image">
-                <img src="" alt="register page" width="500" height="500" />
+              <div className="registration-image reg-img">
+                <img
+                  src="/images/register.png"
+                  alt="a nurse with a cute look"
+                  width="400"
+                  height="500"
+                />
               </div>
-
+              {/* our main registration code  */}
               <div className="registration-form">
-                <h1 className="main-heading mb-3">Registration Form</h1>
+                <h1 className="main-heading mb-3">registration form</h1>
                 <br />
-
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="username">username</label>
                     <input
                       type="text"
                       name="username"
-                      placeholder="enter your name"
-                      id="username"
-                      value={userData.username}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
+                      value={user.username}
+                      onChange={handleInput}
+                      placeholder="username"
                     />
                   </div>
-
                   <div>
                     <label htmlFor="email">email</label>
                     <input
-                      type="email"
+                      type="text"
                       name="email"
-                      placeholder="enter your email"
-                      id="email"
-                      value={userData.email}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
+                      value={user.email}
+                      onChange={handleInput}
+                      placeholder="email"
                     />
                   </div>
-
                   <div>
                     <label htmlFor="phone">phone</label>
                     <input
                       type="number"
                       name="phone"
-                      placeholder="phone"
-                      id="phone"
-                      value={userData.phone}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
+                      value={user.phone}
+                      onChange={handleInput}
                     />
                   </div>
-
                   <div>
                     <label htmlFor="password">password</label>
                     <input
                       type="password"
                       name="password"
+                      value={user.password}
+                      onChange={handleInput}
                       placeholder="password"
-                      id="password"
-                      value={userData.password}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
                     />
                   </div>
-
                   <br />
                   <button type="submit" className="btn btn-submit">
                     Register Now
@@ -98,5 +121,4 @@ const Register = () => {
     </>
   );
 };
-
 export default Register;

@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [userData, setUserData] = useState({
-    email: "",
+ const Login = () => {
+  const [user, setUser] = useState({
+    username: "",
     password: "",
   });
 
-  const handleChange = (e) => {
+  const navigate = useNavigate();
+
+  // let handle the input field value
+  const handleInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    setUserData({ ...userData, [name]: value });
+
+    setUser({
+      ...user,
+      [name]: value,
+    });
   };
+
+  const handleSubmit = ()=>{
+    
+  }
 
   return (
     <>
@@ -18,26 +30,27 @@ const Login = () => {
         <main>
           <div className="section-registration">
             <div className="container grid grid-two-cols">
-              <div className="register-image">
-                <img src="" alt="Login Form" width="500" height="500" />
+              <div className="registration-image reg-img">
+                <img
+                  src="/images/register.png"
+                  alt="a nurse with a cute look"
+                  width="400"
+                  height="500"
+                />
               </div>
-
+              {/* our main registration code  */}
               <div className="registration-form">
-                <h1 className="main-heading mb-3">Login Form</h1>
+                <h1 className="main-heading mb-3">Login form</h1>
                 <br />
-
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="email">email</label>
                     <input
-                      type="email"
+                      type="text"
                       name="email"
-                      placeholder="enter your email"
-                      id="email"
-                      value={userData.email}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
+                      value={user.email}
+                      onChange={handleInput}
+                      placeholder="email"
                     />
                   </div>
 
@@ -46,18 +59,14 @@ const Login = () => {
                     <input
                       type="password"
                       name="password"
+                      value={user.password}
+                      onChange={handleInput}
                       placeholder="password"
-                      id="password"
-                      value={userData.password}
-                      onChange={handleChange}
-                      required
-                      autoComplete="off"
                     />
                   </div>
-
                   <br />
                   <button type="submit" className="btn btn-submit">
-                    Login Now
+                    Register Now
                   </button>
                 </form>
               </div>
