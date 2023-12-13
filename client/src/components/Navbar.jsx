@@ -1,8 +1,11 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, Link } from "react-router-dom";
+import { AuthContext } from "../store/auth";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+
   return (
     <header>
       <div className="container">
@@ -23,12 +26,24 @@ const Navbar = () => {
             <li>
               <NavLink to="/service">Service</NavLink>
             </li>
-            <li>
-              <NavLink to="/register">Register</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Login</NavLink>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li>
+                  <Link to="/" onClick={logout}>
+                    Logout
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink to="/register">Register</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/login">Login</NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       </div>
